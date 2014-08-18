@@ -3,8 +3,9 @@ import com.jogamp.opengl.util.FPSAnimator;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -47,6 +48,15 @@ public class JOGLQuad {
         });
 
         frame.add(glcanvas);
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_UP) v += 0.1;
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) v -= 0.1;
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) x += 0.1;
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) x -= 0.1;
+            }
+        });
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowevent) {
                 new Thread() {
@@ -64,6 +74,9 @@ public class JOGLQuad {
         animator.start();
     }
 
+    static float v = -6.0f;
+    static float x = -0.5f;
+
     protected static void setup(GL2 gl2, int width, int height) {
         gl2.glViewport(0, 0, width, height);
         gl2.glMatrixMode(GL2.GL_PROJECTION);
@@ -73,7 +86,8 @@ public class JOGLQuad {
 //        glu.gluLookAt(10.0f, 10.0f, 10.0f, 0.0f, 0.0f, 0.0f, 5.0f, 5.0f, 5.0f);
         gl2.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl2.glLoadIdentity();
-        gl2.glTranslatef(-0.5f, -0.5f, -6.0f);
+
+        gl2.glTranslatef(x, -0.5f, v);
     }
 
     static GLU glu = new GLU();
@@ -82,8 +96,8 @@ public class JOGLQuad {
     protected static void render(GL2 gl2, int width, int height) {
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();                 // reset the model-view matrix
-        gl2.glTranslatef(-0.5f, -0.5f, -6.0f);
-        gl2.glRotatef(rtri,  -1.0f, 1.0f, 1.0f);
+        gl2.glTranslatef(x, -0.5f, v);
+//        gl2.glRotatef(rtri, -1.0f, 1.0f, 1.0f);
         gl2.glBegin(GL.GL_TRIANGLES);
         gl2.glColor3f(1.0f, 0.0f, 0.0f); // Red
         gl2.glVertex3f(0.0f, 1.0f, 0.0f);
