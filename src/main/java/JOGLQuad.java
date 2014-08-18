@@ -51,10 +51,10 @@ public class JOGLQuad {
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP) v += 0.1;
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) v -= 0.1;
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) x += 0.1;
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) x -= 0.1;
+                if (e.getKeyCode() == KeyEvent.VK_UP) y += 0.1;
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) y -= 0.1;
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) x -= 0.1;
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) x += 0.1;
             }
         });
         frame.addWindowListener(new WindowAdapter() {
@@ -74,8 +74,9 @@ public class JOGLQuad {
         animator.start();
     }
 
-    static float v = -6.0f;
-    static float x = -0.5f;
+    static float z = 5.0f;
+    static float x = 0.0f;
+    static float y = 0.0f;
 
     protected static void setup(GL2 gl2, int width, int height) {
         gl2.glViewport(0, 0, width, height);
@@ -83,11 +84,11 @@ public class JOGLQuad {
         gl2.glLoadIdentity();
         glu.gluPerspective(45.0f, width / height, 0.1f, 100.0f);
         gl2.glMatrixMode(GL2.GL_MODELVIEW);
-//        glu.gluLookAt(10.0f, 10.0f, 10.0f, 0.0f, 0.0f, 0.0f, 5.0f, 5.0f, 5.0f);
+
         gl2.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl2.glLoadIdentity();
 
-        gl2.glTranslatef(x, -0.5f, v);
+//        gl2.glTranslatef(x, -0.5f, z);
     }
 
     static GLU glu = new GLU();
@@ -96,39 +97,14 @@ public class JOGLQuad {
     protected static void render(GL2 gl2, int width, int height) {
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();                 // reset the model-view matrix
-        gl2.glTranslatef(x, -0.5f, v);
-//        gl2.glRotatef(rtri, -1.0f, 1.0f, 1.0f);
-        gl2.glBegin(GL.GL_TRIANGLES);
-        gl2.glColor3f(1.0f, 0.0f, 0.0f); // Red
-        gl2.glVertex3f(0.0f, 1.0f, 0.0f);
-        gl2.glColor3f(0.0f, 1.0f, 0.0f); // Green
-        gl2.glVertex3f(-1.0f, -1.0f, 1.0f);
-        gl2.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-        gl2.glVertex3f(1.0f, -1.0f, 1.0f);
+//        gl2.glTranslatef(x, -0.5f, z);
+        glu.gluLookAt(x, y, z, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+        gl2.glBegin(GL.GL_POINTS);
 
-        // Right-face triangle
-        gl2.glColor3f(1.0f, 0.0f, 0.0f); // Red
-        gl2.glVertex3f(0.0f, 1.0f, 0.0f);
-        gl2.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-        gl2.glVertex3f(1.0f, -1.0f, 1.0f);
-        gl2.glColor3f(0.0f, 1.0f, 0.0f); // Green
-        gl2.glVertex3f(1.0f, -1.0f, -1.0f);
+        for(float i=0.0f; i<1.0f; i+=0.1)
+            for(float j=0.0f; j<1.0f; j+=0.1)
+            gl2.glVertex3f(i, j, 0.0f);
 
-        // Back-face triangle
-        gl2.glColor3f(1.0f, 0.0f, 0.0f); // Red
-        gl2.glVertex3f(0.0f, 1.0f, 0.0f);
-        gl2.glColor3f(0.0f, 1.0f, 0.0f); // Green
-        gl2.glVertex3f(1.0f, -1.0f, -1.0f);
-        gl2.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-        gl2.glVertex3f(-1.0f, -1.0f, -1.0f);
-
-        // Left-face triangle
-        gl2.glColor3f(1.0f, 0.0f, 0.0f); // Red
-        gl2.glVertex3f(0.0f, 1.0f, 0.0f);
-        gl2.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-        gl2.glVertex3f(-1.0f, -1.0f, -1.0f);
-        gl2.glColor3f(0.0f, 1.0f, 0.0f); // Green
-        gl2.glVertex3f(-1.0f, -1.0f, 1.0f);
         gl2.glEnd();
     }
 
