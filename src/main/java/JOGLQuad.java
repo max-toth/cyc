@@ -4,7 +4,7 @@ import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
+import java.awt.*;
 import java.awt.event.*;
 
 public class JOGLQuad {
@@ -17,7 +17,7 @@ public class JOGLQuad {
         GLProfile.initSingleton();
         GLProfile glp = GLProfile.getMaxFixedFunc(true);
 
-        final JFrame frame = new JFrame("Jogl Quad drawing");
+        final JFrame frame = new JFrame("cyc");
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -51,19 +51,15 @@ public class JOGLQuad {
         glcanvas.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                float v = (float) WIDTH / 2;
-                float v1 = (float) e.getX() - v;
-                eyex = v1/100;
-//                    eyey = ((float) e.getX() / 1000) - (float) WIDTH / 1000;
-                System.out.println(eyex + " " + eyey);
-//                eyey = (float) e.getY() / 1000;
-//                System.out.println(x + " " + y);
+//                float v = (float) WIDTH / 2;
+//                float v1 = (float) e.getX() - v;
+//                eyex = v1/100;
+//                eyex = e.getX();
 
+                System.out.println(eyex + " " + eyey);
             }
         });
-
-        frame.add(glcanvas);
-        frame.addKeyListener(new KeyAdapter() {
+        glcanvas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) y += 0.01;
@@ -72,6 +68,7 @@ public class JOGLQuad {
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) x += 0.01;
             }
         });
+
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowevent) {
                 new Thread() {
@@ -83,10 +80,12 @@ public class JOGLQuad {
                 }.start();
             }
         });
-
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setVisible(true);
+        frame.getContentPane().add(glcanvas);
+//        frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
+//        frame.setUndecorated(true);     // no decoration such as title bar
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
         animator.start();
     }
 
@@ -109,50 +108,23 @@ public class JOGLQuad {
     }
 
     static GLU glu = new GLU();
-    static float rtri;
+    static float rtri = 0.01f;
 
     protected static void render(GL2 gl2, int width, int height) {
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();                 // reset the model-view matrix
 //        gl2.glTranslatef(x, -0.5f, z);
-        glu.gluLookAt(x, y, z, eyex, eyey, 0.1f, 0.0f, 0.0f, 1.0f);
+        glu.gluLookAt(x, y, z, Math.sin(eyex), Math.cos(eyey), 0.1f, 0.0f, 0.0f, 1.0f);
         gl2.glBegin(GL.GL_POINTS);
 
-        for (float i = -1.0f; i < 1.0f; i += 0.01)
-            for (float j = -1.0f; j < 1.0f; j += 0.01) {
-                if (i < 0 && j < 0) {
-                    gl2.glColor3f(255, 0, 255);
-                } else if (i > 0 && j > 0) {
-                    gl2.glColor3f(255, 255, 255);
-                } else if (i > 0 && j < 0) {
-                    gl2.glColor3f(0, 255, 255);
-                } else if (i < 0 && j > 0) {
-                    gl2.glColor3f(255, 255, 0);
-                }
-                gl2.glVertex3f(i, j, 0.0f);
-            }
+        for (double s = -3.14; s < 3.14f; s += 0.01f)
+            gl2.glVertex3f((float) Math.sin(s), (float) Math.cos(s), (float) s/100);
 
+//        World.landscape(gl2);
         gl2.glEnd();
-
-        gl2.glBegin(GL.GL_TRIANGLES);
-        gl2.glVertex3f(0.51f, 0.49f, 0.0f);
-        gl2.glVertex3f(0.5f, 0.5f, 0.05f);
-        gl2.glVertex3f(0.51f, 0.51f, 0.0f);
-
-        gl2.glVertex3f(0.49f, 0.49f, 0.0f);
-        gl2.glVertex3f(0.5f, 0.5f, 0.05f);
-        gl2.glVertex3f(0.51f, 0.49f, 0.0f);
-
-        gl2.glVertex3f(0.49f, 0.51f, 0.0f);
-        gl2.glVertex3f(0.5f, 0.5f, 0.05f);
-        gl2.glVertex3f(0.49f, 0.49f, 0.0f);
-
-        gl2.glVertex3f(0.51f, 0.51f, 0.0f);
-        gl2.glVertex3f(0.5f, 0.5f, 0.05f);
-        gl2.glVertex3f(0.49f, 0.51f, 0.0f);
-
-        gl2.glEnd();
+        World.pyramide(gl2);
 
     }
+
 
 }
