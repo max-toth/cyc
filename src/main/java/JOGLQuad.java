@@ -51,21 +51,25 @@ public class JOGLQuad {
         glcanvas.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-//                float v = (float) WIDTH / 2;
-//                float v1 = (float) e.getX() - v;
-//                eyex = v1/100;
-//                eyex = e.getX();
-
-                System.out.println(eyex + " " + eyey);
+                x = scale(glcanvas.getWidth(), e.getX());
+                y = scale(glcanvas.getHeight(), e.getY());
             }
         });
         glcanvas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP) y += 0.01;
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) y -= 0.01;
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) x -= 0.01;
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) x += 0.01;
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    eyey += 0.01;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    eyey -= 0.01;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    eyex -= 0.01;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    eyex += 0.01;
+                }
             }
         });
 
@@ -89,10 +93,10 @@ public class JOGLQuad {
         animator.start();
     }
 
-    static float eyex = 0.0f, eyey = 1.0f;
+    static float eyex = 0.0f, eyey = 0.0f;
     static float z = 0.1f;
-    static float x = 0.0f;
-    static float y = 0.0f;
+    static float x = eyex - 0.01f;
+    static float y = eyey - 0.01f;
 
     protected static void setup(GL2 gl2, int width, int height) {
         gl2.glViewport(0, 0, width, height);
@@ -103,8 +107,6 @@ public class JOGLQuad {
 
         gl2.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl2.glLoadIdentity();
-
-//        gl2.glTranslatef(x, -0.5f, z);
     }
 
     static GLU glu = new GLU();
@@ -112,19 +114,23 @@ public class JOGLQuad {
 
     protected static void render(GL2 gl2, int width, int height) {
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        gl2.glLoadIdentity();                 // reset the model-view matrix
-//        gl2.glTranslatef(x, -0.5f, z);
-        glu.gluLookAt(x, y, z, Math.sin(eyex), Math.cos(eyey), 0.1f, 0.0f, 0.0f, 1.0f);
+        gl2.glLoadIdentity();
+        glu.gluLookAt(Math.sin(x), Math.cos(x), Math.cos(y), eyex, eyey, 0.1f, 0.0f, 0.0f, 1.0f);
         gl2.glBegin(GL.GL_POINTS);
 
         for (double s = -3.14; s < 3.14f; s += 0.01f)
-            gl2.glVertex3f((float) Math.sin(s), (float) Math.cos(s), (float) s/100);
+            gl2.glVertex3f((float) Math.sin(s), (float) Math.cos(s), (float) s / 100);
 
-//        World.landscape(gl2);
+        World.landscape(gl2);
         gl2.glEnd();
         World.pyramide(gl2);
-
     }
 
+    public static float scale(int width, int _x){
+        int i = width / 2;
+        float xx = (float) (_x - i);
+        float iter = (float) Math.PI / i;
+        return xx * iter;
+    }
 
 }
