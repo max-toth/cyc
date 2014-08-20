@@ -51,24 +51,37 @@ public class JOGLQuad {
         glcanvas.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                x = scale(glcanvas.getWidth(), e.getX());
-                y = scale(glcanvas.getHeight(), e.getY());
+                float scaleX = scale(glcanvas.getWidth(), e.getX());
+                float scaleY = scale(glcanvas.getHeight(), e.getY());
+
+                x = (float) Math.sin(scaleX);
+                y = (float) Math.cos(scaleX);
+                z = (float) Math.sin(scaleY);
             }
         });
         glcanvas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    eyey += 0.01;
+                    qube.move(0, 0.001f);
+//                    eyey += 0.01; y = eyey;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    eyey -= 0.01;
+                    qube.move(0, -0.001f);
+//                    eyey -= 0.01; y = eyey;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    eyex -= 0.01;
+                    qube.move(-0.001f, 0);
+//                    eyex -= 0.01; x = eyex - 0.05f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    eyex += 0.01;
+                    qube.move(0.001f, 0);
+//                    eyex += 0.01; x = eyex - 0.05f;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_UP
+                        && e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    qube.move(0, 0.001f);
+                    qube.move(-0.001f, 0);
                 }
             }
         });
@@ -93,10 +106,10 @@ public class JOGLQuad {
         animator.start();
     }
 
-    static float eyex = 0.0f, eyey = 0.0f;
+    static float eyex = 0.0f, eyey = 0.0f, eyez = 0.03f;
     static float z = 0.1f;
-    static float x = eyex - 0.01f;
-    static float y = eyey - 0.01f;
+    static float x = eyex - 0.05f;
+    static float y = eyey;
 
     protected static void setup(GL2 gl2, int width, int height) {
         gl2.glViewport(0, 0, width, height);
@@ -111,18 +124,16 @@ public class JOGLQuad {
 
     static GLU glu = new GLU();
     static float rtri = 0.01f;
+    static Qube qube = World.qube();
 
     protected static void render(GL2 gl2, int width, int height) {
-        gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+                gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();
-        glu.gluLookAt(Math.sin(x), Math.cos(x), Math.cos(y), eyex, eyey, 0.1f, 0.0f, 0.0f, 1.0f);
-        gl2.glBegin(GL.GL_POINTS);
+        glu.gluLookAt(x, y, z, eyex, eyey, eyez, 0.0f, 0.0f, 1.0f);
 
-        for (double s = -3.14; s < 3.14f; s += 0.01f)
-            gl2.glVertex3f((float) Math.sin(s), (float) Math.cos(s), (float) s / 100);
-
+        World.circle(gl2);
         World.landscape(gl2);
-        gl2.glEnd();
+        qube.draw(gl2);
         World.pyramide(gl2);
     }
 
