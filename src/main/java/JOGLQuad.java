@@ -54,8 +54,8 @@ public class JOGLQuad {
                 float scaleX = scale(glcanvas.getWidth(), e.getX());
                 float scaleY = scale(glcanvas.getHeight(), e.getY());
 
-                x = (float) Math.sin(scaleX);
-                y = (float) Math.cos(scaleX);
+                x = (float) Math.sin(scaleX) + qube.A.x;
+                y = (float) Math.cos(scaleX) + qube.A.y;
                 z = (float) Math.sin(scaleY);
             }
         });
@@ -63,25 +63,20 @@ public class JOGLQuad {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    qube.move(0, 0.001f);
-//                    eyey += 0.01; y = eyey;
+                    qube.move(0, 0.01f);
+                    y += 0.01f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    qube.move(0, -0.001f);
-//                    eyey -= 0.01; y = eyey;
+                    qube.move(0, -0.01f);
+                    y -= 0.01f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    qube.move(-0.001f, 0);
-//                    eyex -= 0.01; x = eyex - 0.05f;
+                    qube.move(-0.01f, 0);
+                    x -= 0.01f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    qube.move(0.001f, 0);
-//                    eyex += 0.01; x = eyex - 0.05f;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_UP
-                        && e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    qube.move(0, 0.001f);
-                    qube.move(-0.001f, 0);
+                    qube.move(0.01f, 0);
+                    x += 0.01f;
                 }
             }
         });
@@ -127,9 +122,9 @@ public class JOGLQuad {
     static Qube qube = World.qube();
 
     protected static void render(GL2 gl2, int width, int height) {
-                gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();
-        glu.gluLookAt(x, y, z, eyex, eyey, eyez, 0.0f, 0.0f, 1.0f);
+        glu.gluLookAt(x, y, z, qube.A.x, qube.A.y, eyez, 0.0f, 0.0f, 1.0f);
 
         World.circle(gl2);
         World.landscape(gl2);
@@ -137,11 +132,8 @@ public class JOGLQuad {
         World.pyramide(gl2);
     }
 
-    public static float scale(int width, int _x){
-        int i = width / 2;
-        float xx = (float) (_x - i);
-        float iter = (float) Math.PI / i;
-        return xx * iter;
+    public static float scale(int width, int _x) {
+        return (float) (_x - width / 2) * (float) Math.PI / (width / 2);
     }
 
 }
