@@ -10,8 +10,8 @@ public class World {
 
     public static void landscape(GL2 gl2) {
         gl2.glBegin(GL.GL_POINTS);
-        for (float i = -1.0f; i < 1.0f; i += 0.01)
-            for (float j = -1.0f; j < 1.0f; j += 0.01) {
+        for (float i = -5.0f; i < 5.0f; i += 0.01)
+            for (float j = -5.0f; j < 5.0f; j += 0.01) {
                 if (i < 0 && j < 0) {
                     gl2.glColor3f(255, 0, 255);
                 } else if (i > 0 && j > 0) {
