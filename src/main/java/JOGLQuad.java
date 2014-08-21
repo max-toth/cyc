@@ -59,11 +59,36 @@ public class JOGLQuad {
                 z = (float) Math.sin(scaleY);
             }
         });
+
         glcanvas.addKeyListener(new KeyAdapter() {
+
+            long pressed;
+            long released;
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+                if (released != 0)
+                System.out.println("pressed: "+ pressed + " released: " + e.getWhen());
+                released = e.getWhen();
+                pressed = 0;
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+                System.out.println("keyTyped");
+                if (e.getKeyCode() == KeyEvent.VK_UP){
+                    while(a!=0) qube.move(0, a);
+                    a-=0.0001f;
+                }
+            }
+
             @Override
             public void keyPressed(KeyEvent e) {
+                pressed = e.getWhen();
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    qube.move(0, 0.01f);
+                    qube.move(0, 0.01f + a); a+=0.0001f;
                     y += 0.01f;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -105,6 +130,7 @@ public class JOGLQuad {
     static float z = 0.1f;
     static float x = eyex - 0.05f;
     static float y = eyey;
+    static float a = 0.001f;
 
     protected static void setup(GL2 gl2, int width, int height) {
         gl2.glViewport(0, 0, width, height);
