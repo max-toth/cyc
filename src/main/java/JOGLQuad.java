@@ -69,17 +69,32 @@ public class JOGLQuad {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    qube.move(0, a);
+                if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+//                    qube.move(0, V);
                     if (a < 1.0f) {
                         a += 0.0001f - At;
                         V += a;
                     }
-                    y += a;
+                    y += V;
                 }
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    qube.move(0, -0.01f);
-                    y -= 0.01f;
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    if (V > 0) {
+                        if (V > 0.001) V -= 0.001f;
+                        else V = 0;
+                    }
+                    if (V < 0) {
+                        if (V < -0.001f) V += 0.001f;
+                        else V = 0;
+                    }
+//                    y -= V;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN ||
+                        e.getKeyCode() == KeyEvent.VK_S) {
+                    if (a > -0.03f) {
+                        a += 0.0001f + At;
+                        V -= a;
+                    }
+                    y += V;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     qube.move(-0.01f, 0);
@@ -143,7 +158,7 @@ public class JOGLQuad {
         if (V > 0) {
             V -= a;
         }
-        if (V < 0) V = 0.0f;
+        if (V < 0.01f) V -= a;
 
         World.circle(gl2);
         World.landscape(gl2);
