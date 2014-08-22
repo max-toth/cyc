@@ -1,4 +1,7 @@
+package com.unlocked;
+
 import com.jogamp.opengl.util.FPSAnimator;
+import com.unlocked.car.Wheel;
 
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
@@ -134,17 +137,26 @@ public class JOGLQuad {
     static float rtri = 0.01f;
     static float direction = 0.0f;
     static Qube qube = World.qube();
+    static com.unlocked.car.Frame carFrame = new com.unlocked.car.Frame(0.6f, 0.25f, new Vertex(0.0f,0.0f,0.03f));
+    static Wheel wheelFrontLeft = new Wheel(carFrame.getA(), 0.05f);
+    static Wheel wheelFrontRight = new Wheel(carFrame.getB(), 0.05f);
+    static Wheel wheelRearLeft = new Wheel(carFrame.getC(), 0.05f);
+    static Wheel wheelRearRight = new Wheel(carFrame.getD(), 0.05f);
 
     protected static void render(GL2 gl2, int width, int height) {
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();
         glu.gluLookAt(x, y, z, qube.A.x, qube.A.y, eyez, 0.0f, 0.0f, 1.0f);
-        System.out.println("a=" + qube.a + " V=" + qube.V);
-        World.circle(gl2);
+//        System.out.println("a=" + qube.a + " V=" + qube.V);
         World.landscape(gl2);
-        qube.move(direction, qube.V);
-        qube.draw(gl2);
-        World.pyramide(gl2);
+//        qube.move(direction, qube.V);
+//        qube.draw(gl2);
+//        carFrame.draw(gl2);
+        wheelFrontLeft.draw(gl2);
+//        wheelFrontRight.draw(gl2);
+//        wheelRearLeft.draw(gl2);
+//        wheelRearRight.draw(gl2);
+//        World.pyramide(gl2);
     }
 
     public static float scale(int width, int _x) {

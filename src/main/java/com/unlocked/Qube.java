@@ -1,3 +1,5 @@
+package com.unlocked;
+
 import javax.media.opengl.GL2;
 
 /**
@@ -7,7 +9,7 @@ import javax.media.opengl.GL2;
  */
 public class Qube {
     Vertex A,B,C,D,E,F,G,H;
-    float width = 0.01f;
+    float width = 0.1f;
     float V = 0.0f;
     float a = 0.0f;
     float brakesPower = 0.0005f;

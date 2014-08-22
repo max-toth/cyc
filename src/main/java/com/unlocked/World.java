@@ -1,3 +1,5 @@
+package com.unlocked;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
@@ -23,15 +25,6 @@ public class World {
                 }
                 gl2.glVertex3f(i, j, 0.0f);
             }
-        gl2.glEnd();
-    }
-
-    public static void circle(GL2 gl2) {
-        gl2.glBegin(GL.GL_POINTS);
-
-        for (double s = -3.14; s < 3.14f; s += 0.01f)
-            gl2.glVertex3f((float) Math.sin(s), (float) Math.cos(s), 0.0f);
-
         gl2.glEnd();
     }
 
