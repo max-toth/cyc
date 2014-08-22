@@ -64,37 +64,24 @@ public class JOGLQuad {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                a = At;
+                qube.a = PhysicConstants.At;
+                qube.intertia = true;
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
-//                    qube.move(0, V);
-                    if (a < 1.0f) {
-                        a += 0.0001f - At;
-                        V += a;
-                    }
-                    y += V;
+                    qube.moveUp();
+                    y += qube.V;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    if (V > 0) {
-                        if (V > 0.001) V -= 0.001f;
-                        else V = 0;
-                    }
-                    if (V < 0) {
-                        if (V < -0.001f) V += 0.001f;
-                        else V = 0;
-                    }
-//                    y -= V;
+                    qube.brakes();
+                    y += qube.V;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN ||
                         e.getKeyCode() == KeyEvent.VK_S) {
-                    if (a > -0.03f) {
-                        a += 0.0001f + At;
-                        V -= a;
-                    }
-                    y += V;
+                    qube.moveDown();
+                    y += qube.V;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     qube.move(-0.01f, 0);
@@ -131,9 +118,6 @@ public class JOGLQuad {
     static float z = 0.1f;
     static float x = eyex - 0.05f;
     static float y = eyey;
-    static float a = 0.0f;
-    static float At = 0.0001f;
-    static float V = 0.0f;
 
     protected static void setup(GL2 gl2, int width, int height) {
         gl2.glViewport(0, 0, width, height);
@@ -148,21 +132,17 @@ public class JOGLQuad {
 
     static GLU glu = new GLU();
     static float rtri = 0.01f;
+    static float direction = 0.0f;
     static Qube qube = World.qube();
 
     protected static void render(GL2 gl2, int width, int height) {
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();
         glu.gluLookAt(x, y, z, qube.A.x, qube.A.y, eyez, 0.0f, 0.0f, 1.0f);
-        System.out.println("a=" + a + " V=" + V);
-        if (V > 0) {
-            V -= a;
-        }
-        if (V < 0.01f) V -= a;
-
+        System.out.println("a=" + qube.a + " V=" + qube.V);
         World.circle(gl2);
         World.landscape(gl2);
-        qube.move(0, V);
+        qube.move(direction, qube.V);
         qube.draw(gl2);
         World.pyramide(gl2);
     }

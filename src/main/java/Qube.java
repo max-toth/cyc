@@ -8,6 +8,10 @@ import javax.media.opengl.GL2;
 public class Qube {
     Vertex A,B,C,D,E,F,G,H;
     float width = 0.01f;
+    float V = 0.0f;
+    float a = 0.0f;
+    float brakesPower = 0.0005f;
+    boolean intertia;
 
     Qube(Vertex a) {
         A = a;
@@ -22,8 +26,9 @@ public class Qube {
     }
 
     public void move(float x, float y) {
-//        Qube moved = new Qube(new Vertex(x, y, this.A.z));
-//        this.update(moved);
+        if (V > 0.0f && intertia) V -= a;
+        if (V < 0.0f && intertia) V += a;
+
         this.A.x += x;
         this.B.x += x;
         this.C.x += x;
@@ -41,6 +46,38 @@ public class Qube {
         this.F.y += y;
         this.G.y += y;
         this.H.y += y;
+    }
+
+    public void moveDown() {
+        intertia = false;
+        if (V > -0.003f) {
+            a += 0.0001f - PhysicConstants.At;
+            V -= a;
+        }
+
+        move(0, V);
+    }
+
+    public void moveUp() {
+        intertia = false;
+        if (a < 1.0f) {
+            a += 0.0001f - PhysicConstants.At;
+            V += a;
+        }
+
+        move(0, V);
+    }
+
+    public void brakes() {
+        if (V > 0) {
+            if (V > 0.001) V -= brakesPower;
+            else V = 0;
+        }
+        if (V < 0) {
+            if (V < -0.001f) V += brakesPower;
+            else V = 0;
+        }
+        intertia = false;
     }
 
     public void draw(GL2 gl2) {
