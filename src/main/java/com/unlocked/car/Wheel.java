@@ -16,7 +16,7 @@ import static java.lang.Math.sin;
 public class Wheel {
     Vertex center;
     float radius;
-    float alfa = 90;
+    float alfa = 0;
 
     public float getAlfa() {
         return alfa;
@@ -31,7 +31,7 @@ public class Wheel {
         this.radius = radius;
     }
 
-    public void rotate(Vertex v, Vertex vector, float alpha){
+    public void rotate(Vertex v, Vertex vector, float alpha) {
         float rotationMatrixX[][] = new float[][]{
                 {
                         (float) (cos(alpha) + ((1 - cos(alpha)) * vector.getX() * vector.getX())),
@@ -90,9 +90,9 @@ public class Wheel {
             float theta = (float) (2.0f * Math.PI * (s) / 1.0f);
             float x = 0.0f;//(float) (radius * sin(theta));
             float y = (float) (radius * cos(theta));
-            float z = (float) (radius * Math.sin(theta));
+            float z = (float) (radius * sin(theta));
             Vertex v = new Vertex(x + center.getX(), y + center.getY(), z + center.getZ());
-            rotate(v, new Vertex(0,0,1), alfa);
+            rotate(v, new Vertex(center.getX(), center.getY(), 1), alfa);
             gl2.glVertex3f(v.getX(), v.getY(), v.getZ());
         }
 

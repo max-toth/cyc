@@ -90,11 +90,13 @@ public class JOGLQuad {
 //                    qube.move(-0.01f, 0);
 //                    x -= 0.01f;
                     wheelFrontLeft.setAlfa(wheelFrontLeft.getAlfa() + 0.1f);
+                    wheelFrontRight.setAlfa(wheelFrontRight.getAlfa() + 0.1f);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 //                    qube.move(0.01f, 0);
 //                    x += 0.01f;
                     wheelFrontLeft.setAlfa(wheelFrontLeft.getAlfa() - 0.1f);
+                    wheelFrontRight.setAlfa(wheelFrontRight.getAlfa() - 0.1f);
                 }
             }
         });
