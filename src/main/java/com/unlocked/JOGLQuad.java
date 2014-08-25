@@ -1,7 +1,7 @@
 package com.unlocked;
 
 import com.jogamp.opengl.util.FPSAnimator;
-import com.unlocked.car.Wheel;
+import com.unlocked.car.Car;
 
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
@@ -67,36 +67,37 @@ public class JOGLQuad {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                qube.a = PhysicConstants.At;
-                qube.intertia = true;
+                qube.inertia();
+                car.inertia();
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
                     qube.moveUp();
-                    y += qube.V;
+                    car.moveUp();
+//                    y += qube.V;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     qube.brakes();
-                    y += qube.V;
+                    car.brakes();
+//                    y += qube.V;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN ||
                         e.getKeyCode() == KeyEvent.VK_S) {
                     qube.moveDown();
-                    y += qube.V;
+                    car.moveDown();
+//                    y += qube.V;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-//                    qube.move(-0.01f, 0);
+                    qube.move(-0.01f, 0);
 //                    x -= 0.01f;
-                    wheelFrontLeft.setAlfa(wheelFrontLeft.getAlfa() + 0.1f);
-                    wheelFrontRight.setAlfa(wheelFrontRight.getAlfa() + 0.1f);
+                    car.turnLeft();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-//                    qube.move(0.01f, 0);
+                    qube.move(0.01f, 0);
 //                    x += 0.01f;
-                    wheelFrontLeft.setAlfa(wheelFrontLeft.getAlfa() - 0.1f);
-                    wheelFrontRight.setAlfa(wheelFrontRight.getAlfa() - 0.1f);
+                    car.turnRight();
                 }
             }
         });
@@ -141,11 +142,7 @@ public class JOGLQuad {
     static float rtri = 0.01f;
     static float direction = 0.0f;
     static Qube qube = World.qube();
-    static com.unlocked.car.Frame carFrame = new com.unlocked.car.Frame(0.6f, 0.25f, new Vertex(0.0f, 0.0f, 0.03f));
-    static Wheel wheelFrontLeft = new Wheel(carFrame.getA(), 0.05f);
-    static Wheel wheelFrontRight = new Wheel(carFrame.getB(), 0.05f);
-    static Wheel wheelRearLeft = new Wheel(carFrame.getC(), 0.05f);
-    static Wheel wheelRearRight = new Wheel(carFrame.getD(), 0.05f);
+    static Car car = new Car(0.4f, 0.25f, 0.05f, new Vertex(0, 0, 0.05f));
 
     protected static void render(GL2 gl2, int width, int height) {
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
@@ -153,14 +150,11 @@ public class JOGLQuad {
         glu.gluLookAt(x, y, z, qube.A.x, qube.A.y, eyez, 0.0f, 0.0f, 1.0f);
 //        System.out.println("a=" + qube.a + " V=" + qube.V);
         World.landscape(gl2);
-//        qube.move(direction, qube.V);
-//        qube.draw(gl2);
-        carFrame.draw(gl2);
-        wheelFrontLeft.draw(gl2);
-        wheelFrontRight.draw(gl2);
-        wheelRearLeft.draw(gl2);
-        wheelRearRight.draw(gl2);
-        World.pyramide(gl2);
+        qube.move(direction, qube.velocity());
+        qube.draw(gl2);
+        car.move(direction, car.velocity());
+        car.draw(gl2);
+//        World.pyramide(gl2);
     }
 
     public static float scale(int width, int _x) {

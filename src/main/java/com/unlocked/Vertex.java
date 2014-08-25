@@ -7,8 +7,13 @@ import javax.media.opengl.GL2;
  * Date: 20.08.14
  * Time: 16:25
  */
-public class Vertex {
-    float x,y,z;
+public class Vertex implements Nonstatic {
+    private static final float BRAKES_POWER = 0.0005f;
+    float x, y, z;
+    float V = 0.0f;
+    float a = 0.0f;
+    float brakesPower = BRAKES_POWER;
+    boolean inertia;
 
     public Vertex(float x, float y, float z) {
         this.x = x;
@@ -25,6 +30,67 @@ public class Vertex {
         this.y = vertex.y;
         this.z = vertex.z;
     }
+
+    public void move(float x, float y) {
+        if (V > 0.0f && inertia) V -= a;
+        if (V < 0.0f && inertia) V += a;
+        this.x += x;
+        this.y += y;
+    }
+
+    public void moveDown() {
+        inertia = false;
+        if (V > -0.003f) {
+            a += 0.0001f - PhysicConstants.At;
+            V -= a;
+        }
+
+        move(0, V);
+    }
+
+    public void moveUp() {
+        inertia = false;
+        if (a < 1.0f) {
+            a += 0.0001f - PhysicConstants.At;
+            V += a;
+        }
+
+        move(0, V);
+    }
+
+    public void brakes() {
+        if (V > 0) {
+            if (V > 0.001) {
+                V -= brakesPower;
+                brakesPower += 0.0001f;
+            } else {
+                V = 0;
+                brakesPower = BRAKES_POWER;
+            }
+        }
+        if (V < 0) {
+            if (V < -0.001f) {
+                V += brakesPower;
+                brakesPower += 0.0001f;
+            } else {
+                V = 0;
+                brakesPower = BRAKES_POWER;
+            }
+        }
+        inertia = false;
+    }
+
+    @Override
+    public void inertia() {
+        this.a = PhysicConstants.At;
+        this.inertia = true;
+    }
+
+    @Override
+    public float velocity() {
+        return V;
+    }
+
 
     public float getX() {
         return x;

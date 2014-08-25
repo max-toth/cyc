@@ -1,6 +1,7 @@
 package com.unlocked.car;
 
 
+import com.unlocked.Nonstatic;
 import com.unlocked.Vertex;
 
 import javax.media.opengl.GL2;
@@ -10,7 +11,7 @@ import javax.media.opengl.GL2;
  * Date: 22.08.14
  * Time: 12:10
  */
-public class Frame {
+public class Frame implements Nonstatic {
 
     Vertex a,b,c,d,e,f;
 
@@ -33,18 +34,14 @@ public class Frame {
     public void draw(GL2 gl2){
 
         gl2.glBegin(GL2.GL_LINES);
+
         a.draw(gl2);
         b.draw(gl2);
-//        gl2.glEnd();
-
-//        gl2.glBegin(GL2.GL_LINE);
         c.draw(gl2);
         d.draw(gl2);
-//        gl2.glEnd();
-
-//        gl2.glBegin(GL2.GL_LINE);
         f.draw(gl2);
         e.draw(gl2);
+
         gl2.glEnd();
     }
 
@@ -118,5 +115,60 @@ public class Frame {
 
     public void setCsaRadius(float csaRadius) {
         this.csaRadius = csaRadius;
+    }
+
+    @Override
+    public void move(float x, float y) {
+        this.a.move(x, y);
+        this.b.move(x, y);
+        this.c.move(x, y);
+        this.d.move(x, y);
+        this.e.move(x, y);
+        this.f.move(x, y);
+    }
+
+    @Override
+    public void moveUp() {
+        this.a.moveUp();
+        this.b.moveUp();
+        this.c.moveUp();
+        this.d.moveUp();
+        this.e.moveUp();
+        this.f.moveUp();
+    }
+
+    @Override
+    public void moveDown() {
+        this.a.moveDown();
+        this.b.moveDown();
+        this.c.moveDown();
+        this.d.moveDown();
+        this.e.moveDown();
+        this.f.moveDown();
+    }
+
+    @Override
+    public void brakes() {
+        this.a.brakes();
+        this.b.brakes();
+        this.c.brakes();
+        this.d.brakes();
+        this.e.brakes();
+        this.f.brakes();
+    }
+
+    @Override
+    public void inertia() {
+        this.a.inertia();
+        this.b.inertia();
+        this.c.inertia();
+        this.d.inertia();
+        this.e.inertia();
+        this.f.inertia();
+    }
+
+    @Override
+    public float velocity() {
+        return this.a.velocity();
     }
 }

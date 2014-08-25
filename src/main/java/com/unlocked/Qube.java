@@ -7,13 +7,9 @@ import javax.media.opengl.GL2;
  * Date: 20.08.14
  * Time: 16:25
  */
-public class Qube {
+public class Qube implements Nonstatic {
     Vertex A,B,C,D,E,F,G,H;
     float width = 0.1f;
-    float V = 0.0f;
-    float a = 0.0f;
-    float brakesPower = 0.0005f;
-    boolean intertia;
 
     Qube(Vertex a) {
         A = a;
@@ -28,58 +24,67 @@ public class Qube {
     }
 
     public void move(float x, float y) {
-        if (V > 0.0f && intertia) V -= a;
-        if (V < 0.0f && intertia) V += a;
-
-        this.A.x += x;
-        this.B.x += x;
-        this.C.x += x;
-        this.D.x += x;
-        this.E.x += x;
-        this.F.x += x;
-        this.G.x += x;
-        this.H.x += x;
-
-        this.A.y += y;
-        this.B.y += y;
-        this.C.y += y;
-        this.D.y += y;
-        this.E.y += y;
-        this.F.y += y;
-        this.G.y += y;
-        this.H.y += y;
+        this.A.move(x, y);
+        this.B.move(x, y);
+        this.C.move(x, y);
+        this.D.move(x, y);
+        this.E.move(x, y);
+        this.F.move(x, y);
+        this.G.move(x, y);
+        this.H.move(x, y);
     }
 
-    public void moveDown() {
-        intertia = false;
-        if (V > -0.003f) {
-            a += 0.0001f - PhysicConstants.At;
-            V -= a;
-        }
-
-        move(0, V);
-    }
-
+    @Override
     public void moveUp() {
-        intertia = false;
-        if (a < 1.0f) {
-            a += 0.0001f - PhysicConstants.At;
-            V += a;
-        }
-
-        move(0, V);
+        this.A.moveUp();
+        this.B.moveUp();
+        this.C.moveUp();
+        this.D.moveUp();
+        this.E.moveUp();
+        this.F.moveUp();
+        this.G.moveUp();
+        this.H.moveUp();
     }
 
+    @Override
+    public void moveDown() {
+        this.A.moveDown();
+        this.B.moveDown();
+        this.C.moveDown();
+        this.D.moveDown();
+        this.E.moveDown();
+        this.F.moveDown();
+        this.G.moveDown();
+        this.H.moveDown();
+    }
+
+    @Override
     public void brakes() {
-        if (V > 0) {
-            if (V > 0.001) V -= brakesPower;
-            else V = 0;
-        }
-        if (V < 0) {
-            if (V < -0.001f) V += brakesPower;
-            else V = 0;
-        }
-        intertia = false;
+        this.A.brakes();
+        this.B.brakes();
+        this.C.brakes();
+        this.D.brakes();
+        this.E.brakes();
+        this.F.brakes();
+        this.G.brakes();
+        this.H.brakes();
+    }
+
+    @Override
+    public void inertia() {
+        this.A.inertia();
+        this.B.inertia();
+        this.C.inertia();
+        this.D.inertia();
+        this.E.inertia();
+        this.F.inertia();
+        this.G.inertia();
+        this.H.inertia();
+    }
+
+    @Override
+    public float velocity() {
+        return this.A.velocity();
     }
 
     public void draw(GL2 gl2) {
