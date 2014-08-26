@@ -1,4 +1,4 @@
-package com.unlocked;
+package com.unlocked.objects;
 
 import javax.media.opengl.GL2;
 
@@ -7,7 +7,7 @@ import javax.media.opengl.GL2;
  * Date: 20.08.14
  * Time: 16:25
  */
-public class Qube implements Nonstatic {
+public class Qube implements Nonstatic, Drawable {
     Vertex A,B,C,D,E,F,G,H;
     float width = 0.1f;
 
@@ -87,6 +87,12 @@ public class Qube implements Nonstatic {
         return this.A.velocity();
     }
 
+    @Override
+    public float direction() {
+        return A.getX();
+    }
+
+    @Override
     public void draw(GL2 gl2) {
 
         gl2.glBegin(GL2.GL_POLYGON);

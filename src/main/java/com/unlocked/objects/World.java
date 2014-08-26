@@ -1,7 +1,11 @@
-package com.unlocked;
+package com.unlocked.objects;
+
+import com.unlocked.objects.car.Car;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: mtolstykh
@@ -9,6 +13,8 @@ import javax.media.opengl.GL2;
  * Time: 17:15
  */
 public class World {
+
+    public static int selected;
 
     public static void landscape(GL2 gl2) {
         gl2.glBegin(GL.GL_POINTS);
@@ -50,8 +56,22 @@ public class World {
         gl2.glEnd();
     }
 
-    public static Qube qube() {
-        Qube qube = new Qube(new Vertex(0.0f, 0.0f, 0.0f));
-        return qube;
+    public static void init() {
+        drawables.add(new Car(0.4f, 0.25f, 0.05f, new Vertex(0, 0, 0.05f)));
+        drawables.add(new Qube(new Vertex(0.0f, 0.0f, 0.0f)));
+        selected = 0;
+    }
+
+    public static List<Drawable> drawables = new ArrayList<Drawable>();
+
+    public static void draw(GL2 gl2) {
+        landscape(gl2);
+        for (Drawable drawable : drawables) {
+            drawable.draw(gl2);
+            if (drawable instanceof Nonstatic) {
+                Nonstatic nonstatic = (Nonstatic) drawable;
+                nonstatic.move(nonstatic.direction(), nonstatic.velocity());
+            }
+        }
     }
 }

@@ -1,14 +1,15 @@
-package com.unlocked.car;
+package com.unlocked.objects.car;
 
-import com.unlocked.Nonstatic;
-import com.unlocked.Vertex;
+import com.unlocked.objects.Drawable;
+import com.unlocked.objects.Nonstatic;
+import com.unlocked.objects.Vertex;
 
 import javax.media.opengl.GL2;
 
 /**
  * Created by max_tolstykh on 25/08/14.
  */
-public class Car implements Nonstatic {
+public class Car implements Nonstatic, Drawable {
     Frame carFrame;
     Wheel wheelFrontLeft;
     Wheel wheelFrontRight;
@@ -33,6 +34,7 @@ public class Car implements Nonstatic {
         this.wheelFrontRight.turn(1);
     }
 
+    @Override
     public void draw(GL2 gl2) {
         carFrame.draw(gl2);
         wheelFrontLeft.draw(gl2);
@@ -89,5 +91,10 @@ public class Car implements Nonstatic {
     @Override
     public float velocity() {
         return carFrame.velocity();
+    }
+
+    @Override
+    public float direction() {
+        return carFrame.a.getX();
     }
 }

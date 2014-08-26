@@ -6,5 +6,5 @@ package com.unlocked;
  * Time: 11:19
  */
 public class PhysicConstants {
-    static float At = 0.000025f;
+    public static float At = 0.000025f;
 }

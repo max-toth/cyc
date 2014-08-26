@@ -1,4 +1,4 @@
-package com.unlocked;
+package com.unlocked.objects;
 
 /**
  * Created by max_tolstykh on 25/08/14.
@@ -10,4 +10,5 @@ public interface Nonstatic {
     public void brakes();
     public void inertia();
     public float velocity();
+    public float direction();
 }

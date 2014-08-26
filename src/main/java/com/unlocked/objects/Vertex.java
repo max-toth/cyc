@@ -1,4 +1,6 @@
-package com.unlocked;
+package com.unlocked.objects;
+
+import com.unlocked.PhysicConstants;
 
 import javax.media.opengl.GL2;
 
@@ -7,7 +9,7 @@ import javax.media.opengl.GL2;
  * Date: 20.08.14
  * Time: 16:25
  */
-public class Vertex implements Nonstatic {
+public class Vertex implements Nonstatic, Drawable {
     private static final float BRAKES_POWER = 0.0005f;
     float x, y, z;
     float V = 0.0f;
@@ -21,6 +23,7 @@ public class Vertex implements Nonstatic {
         this.z = z;
     }
 
+    @Override
     public void draw(GL2 gl2) {
         gl2.glVertex3f(this.x, this.y, this.z);
     }
@@ -31,6 +34,7 @@ public class Vertex implements Nonstatic {
         this.z = vertex.z;
     }
 
+    @Override
     public void move(float x, float y) {
         if (V > 0.0f && inertia) V -= a;
         if (V < 0.0f && inertia) V += a;
@@ -38,6 +42,7 @@ public class Vertex implements Nonstatic {
         this.y += y;
     }
 
+    @Override
     public void moveDown() {
         inertia = false;
         if (V > -0.003f) {
@@ -48,6 +53,7 @@ public class Vertex implements Nonstatic {
         move(0, V);
     }
 
+    @Override
     public void moveUp() {
         inertia = false;
         if (a < 1.0f) {
@@ -58,6 +64,7 @@ public class Vertex implements Nonstatic {
         move(0, V);
     }
 
+    @Override
     public void brakes() {
         if (V > 0) {
             if (V > 0.001) {
@@ -91,6 +98,10 @@ public class Vertex implements Nonstatic {
         return V;
     }
 
+    @Override
+    public float direction() {
+        return x;
+    }
 
     public float getX() {
         return x;

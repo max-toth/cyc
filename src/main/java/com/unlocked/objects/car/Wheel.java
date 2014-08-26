@@ -1,9 +1,9 @@
-package com.unlocked.car;
+package com.unlocked.objects.car;
 
-import com.unlocked.Nonstatic;
-import com.unlocked.Vertex;
+import com.unlocked.objects.Drawable;
+import com.unlocked.objects.Nonstatic;
+import com.unlocked.objects.Vertex;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import static java.lang.Math.cos;
@@ -14,7 +14,7 @@ import static java.lang.Math.sin;
  * Date: 22.08.14
  * Time: 12:09
  */
-public class Wheel implements Nonstatic{
+public class Wheel implements Nonstatic, Drawable {
     Vertex center;
     float radius;
     float alfa = 0;
@@ -101,6 +101,7 @@ public class Wheel implements Nonstatic{
         multiply(vertex, rotationMatrixX);
     }
 
+    @Override
     public void draw(GL2 gl2) {
         gl2.glBegin(GL2.GL_POLYGON);
         for (double s = 0.0f; s < 1.0f; s += 0.001f) {
@@ -144,5 +145,10 @@ public class Wheel implements Nonstatic{
     @Override
     public float velocity() {
         return center.velocity();
+    }
+
+    @Override
+    public float direction() {
+        return center.getX();
     }
 }

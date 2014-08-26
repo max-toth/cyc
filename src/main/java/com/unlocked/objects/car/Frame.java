@@ -1,8 +1,9 @@
-package com.unlocked.car;
+package com.unlocked.objects.car;
 
 
-import com.unlocked.Nonstatic;
-import com.unlocked.Vertex;
+import com.unlocked.objects.Drawable;
+import com.unlocked.objects.Nonstatic;
+import com.unlocked.objects.Vertex;
 
 import javax.media.opengl.GL2;
 
@@ -11,7 +12,7 @@ import javax.media.opengl.GL2;
  * Date: 22.08.14
  * Time: 12:10
  */
-public class Frame implements Nonstatic {
+public class Frame implements Nonstatic, Drawable {
 
     Vertex a,b,c,d,e,f;
 
@@ -31,6 +32,7 @@ public class Frame implements Nonstatic {
         this.width = width;
     }
 
+    @Override
     public void draw(GL2 gl2){
 
         gl2.glBegin(GL2.GL_LINES);
@@ -170,5 +172,10 @@ public class Frame implements Nonstatic {
     @Override
     public float velocity() {
         return this.a.velocity();
+    }
+
+    @Override
+    public float direction() {
+        return a.getX();
     }
 }
