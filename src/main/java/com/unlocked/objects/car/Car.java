@@ -32,6 +32,7 @@ public class Car implements Nonstatic, Drawable {
     public void turnRight(){
         this.wheelFrontLeft.turn(1);
         this.wheelFrontRight.turn(1);
+
     }
 
     @Override

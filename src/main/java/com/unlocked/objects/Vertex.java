@@ -13,6 +13,7 @@ public class Vertex implements Nonstatic, Drawable {
     private static final float BRAKES_POWER = 0.0005f;
     float x, y, z;
     float V = 0.0f;
+    float direction = 0.0f;
     float a = 0.0f;
     float brakesPower = BRAKES_POWER;
     boolean inertia;
@@ -50,7 +51,7 @@ public class Vertex implements Nonstatic, Drawable {
             V -= a;
         }
 
-        move(0, V);
+        move(direction, V);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class Vertex implements Nonstatic, Drawable {
             V += a;
         }
 
-        move(0, V);
+        move(direction, V);
     }
 
     @Override
