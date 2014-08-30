@@ -67,11 +67,10 @@ public class World {
     public static void draw(GL2 gl2) {
         landscape(gl2);
         for (Drawable drawable : drawables) {
-            drawable.draw(gl2);
             if (drawable instanceof Nonstatic) {
-                Nonstatic nonstatic = (Nonstatic) drawable;
-                nonstatic.move(nonstatic.direction(), nonstatic.velocity());
+                ((Nonstatic) drawable).move(((Nonstatic) drawable).direction(), ((Nonstatic) drawable).velocity());
             }
+            drawable.draw(gl2);
         }
     }
 }

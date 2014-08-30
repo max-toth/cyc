@@ -21,7 +21,15 @@ public class GLEventListenerImpl implements GLEventListener {
 
     @Override
     public void reshape(GLAutoDrawable glautodrawable, int x, int y, int width, int height) {
-        setup(glautodrawable.getGL().getGL2(), width, height);
+        GL2 gl2 = glautodrawable.getGL().getGL2();
+        gl2.glViewport(0, 0, width, height);
+        gl2.glMatrixMode(GL2.GL_PROJECTION);
+        gl2.glLoadIdentity();
+        glu.gluPerspective(45.0f, width / height, 0.1f, 100.0f);
+        gl2.glMatrixMode(GL2.GL_MODELVIEW);
+
+        gl2.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl2.glLoadIdentity();
     }
 
     @Override
@@ -36,21 +44,7 @@ public class GLEventListenerImpl implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable glautodrawable) {
-        render(glautodrawable.getGL().getGL2(), glautodrawable.getSurfaceWidth(), glautodrawable.getSurfaceHeight());
-    }
-
-    protected void setup(GL2 gl2, int width, int height) {
-        gl2.glViewport(0, 0, width, height);
-        gl2.glMatrixMode(GL2.GL_PROJECTION);
-        gl2.glLoadIdentity();
-        glu.gluPerspective(45.0f, width / height, 0.1f, 100.0f);
-        gl2.glMatrixMode(GL2.GL_MODELVIEW);
-
-        gl2.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        gl2.glLoadIdentity();
-    }
-
-    protected void render(GL2 gl2, int width, int height) {
+        GL2 gl2 = glautodrawable.getGL().getGL2();
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl2.glLoadIdentity();
         glu.gluLookAt(Camera.x, Camera.y, Camera.z, Camera.eyex, Camera.eyey, Camera.eyez, 0.0f, 0.0f, 1.0f);

@@ -38,11 +38,12 @@ public class Frame implements Nonstatic, Drawable {
         gl2.glBegin(GL2.GL_LINES);
 
         a.draw(gl2);
+        d.draw(gl2);
+
         b.draw(gl2);
         c.draw(gl2);
-        d.draw(gl2);
-        f.draw(gl2);
-        e.draw(gl2);
+//        f.draw(gl2);
+//        e.draw(gl2);
 
         gl2.glEnd();
     }

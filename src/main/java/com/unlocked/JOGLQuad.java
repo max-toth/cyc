@@ -1,8 +1,10 @@
 package com.unlocked;
 
 import com.jogamp.opengl.util.FPSAnimator;
+import com.unlocked.awt.CustomWindowAdapter;
 import com.unlocked.awt.KeyboardListener;
 import com.unlocked.awt.MouseMovementAdapter;
+import com.unlocked.objects.Nonstatic;
 import com.unlocked.objects.car.Car;
 import com.unlocked.objects.Qube;
 import com.unlocked.objects.Vertex;
@@ -27,23 +29,12 @@ public class JOGLQuad {
         GLCapabilities glcapabilities = new GLCapabilities(glp);
         final GLCanvas glcanvas = new GLCanvas(glcapabilities);
 
-        final FPSAnimator animator = new FPSAnimator(glcanvas, 60, true);
         glcanvas.addGLEventListener(new GLEventListenerImpl(new GLU()));
         glcanvas.addMouseMotionListener(new MouseMovementAdapter(glcanvas));
         glcanvas.addKeyListener(new KeyboardListener());
 
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowevent) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        if (animator.isStarted()) animator.stop();
-                        System.exit(0);
-                    }
-                }.start();
-            }
-        });
-
+        final FPSAnimator animator = new FPSAnimator(glcanvas, 60, true);
+        frame.addWindowListener(new CustomWindowAdapter(animator));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(glcanvas);
         frame.setLocationRelativeTo(null);

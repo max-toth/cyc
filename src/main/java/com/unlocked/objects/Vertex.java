@@ -37,6 +37,7 @@ public class Vertex implements Nonstatic, Drawable {
 
     @Override
     public void move(float x, float y) {
+
         if (V > 0.0f && inertia) V -= a;
         if (V < 0.0f && inertia) V += a;
         this.x += x;
