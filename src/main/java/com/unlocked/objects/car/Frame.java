@@ -24,10 +24,10 @@ public class Frame implements Nonstatic, Drawable {
     public Frame(float length, float width, Vertex a) {
         this.a = a;
         this.b = new Vertex(a.getX() + width, a.getY(), a.getZ());
-        this.c = new Vertex(a.getX(), a.getY() + length, a.getZ());
-        this.d = new Vertex(a.getX() + width, a.getY() + length, a.getZ());
-        this.e = new Vertex(a.getX() + width/2, a.getY(), a.getZ());
-        this.f = new Vertex(a.getX() + width/2, a.getY() + length, a.getZ());
+        this.c = new Vertex(a.getX(), a.getY() - length, a.getZ());
+        this.d = new Vertex(a.getX() + width, a.getY() - length, a.getZ());
+//        this.e = new Vertex(a.getX() - width/2, a.getY(), a.getZ());
+//        this.f = new Vertex(a.getX() - width/2, a.getY() - length, a.getZ());
         this.length = length;
         this.width = width;
     }
@@ -80,22 +80,6 @@ public class Frame implements Nonstatic, Drawable {
         this.d = d;
     }
 
-    public Vertex getE() {
-        return e;
-    }
-
-    public void setE(Vertex e) {
-        this.e = e;
-    }
-
-    public Vertex getF() {
-        return f;
-    }
-
-    public void setF(Vertex f) {
-        this.f = f;
-    }
-
     public float getLength() {
         return length;
     }
@@ -126,8 +110,8 @@ public class Frame implements Nonstatic, Drawable {
         this.b.move(x, y);
         this.c.move(x, y);
         this.d.move(x, y);
-        this.e.move(x, y);
-        this.f.move(x, y);
+//        this.e.move(x, y);
+//        this.f.move(x, y);
     }
 
     @Override
@@ -136,8 +120,8 @@ public class Frame implements Nonstatic, Drawable {
         this.b.moveUp();
         this.c.moveUp();
         this.d.moveUp();
-        this.e.moveUp();
-        this.f.moveUp();
+//        this.e.moveUp();
+//        this.f.moveUp();
     }
 
     @Override
@@ -146,8 +130,8 @@ public class Frame implements Nonstatic, Drawable {
         this.b.moveDown();
         this.c.moveDown();
         this.d.moveDown();
-        this.e.moveDown();
-        this.f.moveDown();
+//        this.e.moveDown();
+//        this.f.moveDown();
     }
 
     @Override
@@ -156,8 +140,8 @@ public class Frame implements Nonstatic, Drawable {
         this.b.brakes();
         this.c.brakes();
         this.d.brakes();
-        this.e.brakes();
-        this.f.brakes();
+//        this.e.brakes();
+//        this.f.brakes();
     }
 
     @Override
@@ -166,8 +150,8 @@ public class Frame implements Nonstatic, Drawable {
         this.b.inertia();
         this.c.inertia();
         this.d.inertia();
-        this.e.inertia();
-        this.f.inertia();
+//        this.e.inertia();
+//        this.f.inertia();
     }
 
     @Override

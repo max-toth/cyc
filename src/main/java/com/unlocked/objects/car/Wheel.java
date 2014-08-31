@@ -1,5 +1,6 @@
 package com.unlocked.objects.car;
 
+import com.unlocked.MathUtils;
 import com.unlocked.objects.Drawable;
 import com.unlocked.objects.Nonstatic;
 import com.unlocked.objects.Vertex;
@@ -15,9 +16,17 @@ import static java.lang.Math.sin;
  * Time: 12:09
  */
 public class Wheel implements Nonstatic, Drawable {
-    Vertex center;
-    float radius;
-    float alfa = 0;
+    private Vertex center;
+    private float radius;
+    private float alfa = 0;
+
+    public Vertex getCenter() {
+        return center;
+    }
+
+    public void setCenter(Vertex center) {
+        this.center = center;
+    }
 
     public float getAlfa() {
         return alfa;
@@ -37,68 +46,17 @@ public class Wheel implements Nonstatic, Drawable {
             case 0: //left
                 if (this.alfa <= 0.8f) {
                     this.alfa += 0.03f;
+                    System.out.println(alfa * 180 / Math.PI);
                 }
                 break;
             case 1: //right
                 if (this.alfa >= -0.8f) {
                     this.alfa -= 0.03f;
+                    System.out.println(alfa * 180 / Math.PI);
                 }
                 break;
         }
 
-    }
-
-    public void rotate(Vertex v, Vertex vector, float alpha) {
-        float rotationMatrixX[][] = new float[][]{
-                {
-                        (float) (cos(alpha) + ((1 - cos(alpha)) * vector.getX() * vector.getX())),
-                        (float) (((1 - cos(alpha)) * vector.getX() * vector.getY()) - sin(alpha) * vector.getZ()),
-                        (float) ((1 - cos(alpha)) * vector.getX() * vector.getZ() + sin(alpha) * vector.getY())
-                },
-                {
-                        (float) (((1 - cos(alpha)) * vector.getX() * vector.getY()) + sin(alpha) * vector.getZ()),
-                        (float) (cos(alpha) + ((1 - cos(alpha)) * vector.getY() * vector.getY())),
-                        (float) ((1 - cos(alpha)) * vector.getY() * vector.getZ() - sin(alpha) * vector.getX())
-                },
-                {
-                        (float) (((1 - cos(alpha)) * vector.getX() * vector.getZ()) + sin(alpha) * vector.getY()),
-                        (float) ((1 - cos(alpha)) * vector.getY() * vector.getZ() + sin(alpha) * vector.getX()),
-                        (float) (cos(alpha) + ((1 - cos(alpha)) * vector.getZ() * vector.getZ()))
-                },
-        };
-
-        multiply(v, rotationMatrixX);
-    }
-
-    public void multiply(Vertex vertex, float matrix[][]) {
-        float x = vertex.getX();
-        float y = vertex.getY();
-        float z = vertex.getZ();
-        vertex.setX(
-                (x * matrix[0][0]) +
-                        (y * matrix[0][1]) +
-                        (z * matrix[0][2])
-        );
-        vertex.setY(
-                (x * matrix[1][0]) +
-                        (y * matrix[1][1]) +
-                        (z * matrix[1][2])
-        );
-        vertex.setZ(
-                (x * matrix[2][0]) +
-                        (y * matrix[2][1]) +
-                        (z * matrix[2][2])
-        );
-    }
-
-    public void rotate(Vertex vertex, float alpha) {
-        float rotationMatrixX[][] = new float[][]{
-                {1, 0, 0},
-                {0, (float) cos(alpha), (float) -sin(alpha)},
-                {0, (float) sin(alpha), (float) cos(alpha)},
-        };
-
-        multiply(vertex, rotationMatrixX);
     }
 
     @Override
@@ -110,8 +68,12 @@ public class Wheel implements Nonstatic, Drawable {
             float y = (float) (radius * cos(theta));
             float z = (float) (radius * sin(theta));
             Vertex v = new Vertex(x, y, z);
-            rotate(v, new Vertex(0, 0, 1), alfa);
-            gl2.glVertex3f(v.getX() + center.getX(), v.getY() + center.getY(), v.getZ() + center.getZ());
+            MathUtils.rotate(v, new Vertex(0, 0, 1), alfa);
+            gl2.glVertex3f(
+                    v.getX() + center.getX(),
+                    v.getY() + center.getY(),
+                    v.getZ() + center.getZ()
+            );
         }
 
         gl2.glEnd();

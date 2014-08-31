@@ -6,7 +6,7 @@ package com.unlocked;
 public class Camera {
     public static int screenWidth, screenHeight;
     public static float eyex = 0.0f, eyey = 0.0f, eyez = 0.03f;
-    public static float z = 0.1f;
-    public static float x = eyex - 0.5f;
-    public static float y = eyey;
+    public static float z = 3.0f;
+    public static float x = -3.0f;
+    public static float y = -3.0f;
 }
