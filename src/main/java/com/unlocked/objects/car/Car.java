@@ -44,13 +44,17 @@ public class Car implements Nonstatic, Drawable {
     private void leftSidePoint() {
         float c = carFrame.getLength() / this.wheelFrontLeft.getAlfa();
         float b = (float) Math.sqrt(c * c - carFrame.getLength() * carFrame.getLength());
-        turnPoint = new Vertex(wheelRearLeft.getCenter().getX() - b, wheelRearLeft.getCenter().getY(), 0);
+        turnPoint.setX(wheelRearLeft.getCenter().getX() - b);
+        turnPoint.setY(wheelRearLeft.getCenter().getY());
+        turnPoint.setX(wheelRearLeft.getCenter().getZ());
     }
 
     private void rightSidePoint() {
         float c = carFrame.getLength() / this.wheelFrontRight.getAlfa();
         float b = (float) Math.sqrt(c * c - carFrame.getLength() * carFrame.getLength());
-        turnPoint = new Vertex(wheelRearRight.getCenter().getX() + b, wheelRearRight.getCenter().getY(), 0);
+        turnPoint.setX(wheelRearRight.getCenter().getX() + b);
+        turnPoint.setY(wheelRearRight.getCenter().getY());
+        turnPoint.setX(wheelRearRight.getCenter().getZ());
     }
 
     @Override
