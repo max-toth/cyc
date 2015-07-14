@@ -4,11 +4,8 @@ import com.jogamp.opengl.util.FPSAnimator;
 import com.unlocked.awt.CustomWindowAdapter;
 import com.unlocked.awt.KeyboardListener;
 import com.unlocked.awt.MouseMovementAdapter;
-import com.unlocked.objects.Nonstatic;
+import com.unlocked.objects.*;
 import com.unlocked.objects.car.Car;
-import com.unlocked.objects.Qube;
-import com.unlocked.objects.Vertex;
-import com.unlocked.objects.World;
 
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
@@ -17,7 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class JOGLQuad {
+public class Main {
 
     public static void main(String[] args) {
 

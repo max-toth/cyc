@@ -1,9 +1,9 @@
 package com.unlocked.objects;
 
 import com.unlocked.objects.car.Car;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +14,22 @@ import java.util.List;
  */
 public class World {
 
+    private Landscape landscape;
+
     public static int selected;
 
-    public static void landscape(GL2 gl2) {
+    public Landscape getLandscape() {
+        return landscape;
+    }
+
+    public void setLandscape(Landscape landscape) {
+        this.landscape = landscape;
+    }
+
+    public void landscape(GL2 gl2) {
         gl2.glBegin(GL.GL_POINTS);
-        for (float i = -5.0f; i < 5.0f; i += 0.01)
-            for (float j = -5.0f; j < 5.0f; j += 0.01) {
+        for (int i = 0; i < landscape.getWidth(); i++)
+            for (int j = 0; j < landscape.getHeight(); j++) {
                 if (i < 0 && j < 0) {
                     gl2.glColor3f(255, 0, 255);
                 } else if (i > 0 && j > 0) {
@@ -29,12 +39,13 @@ public class World {
                 } else if (i < 0 && j > 0) {
                     gl2.glColor3f(255, 255, 0);
                 }
-                gl2.glVertex3f(i, j, 0.0f);
+                Short h = landscape.getHeights().get(i + landscape.getHeight()*j);
+                gl2.glVertex3f((float)i/100, (float)j/100, (float)h/1000);
             }
         gl2.glEnd();
     }
 
-    public static void pyramide(GL2 gl2) {
+    public void pyramide(GL2 gl2) {
         gl2.glBegin(GL.GL_TRIANGLES);
 
         gl2.glVertex3f(0.51f, 0.49f, 0.0f);
@@ -56,15 +67,19 @@ public class World {
         gl2.glEnd();
     }
 
-    public static void init() {
+    public void init() {
         drawables.add(new Car(0.4f, 0.25f, 0.05f, new Vertex(0, 0, 0.05f)));
-        drawables.add(new Qube(new Vertex(0.0f, 0.0f, 0.0f)));
+//        drawables.add(new Qube(new Vertex(0.0f, 0.0f, 0.0f)));
         selected = 0;
     }
 
-    public static List<Drawable> drawables = new ArrayList<Drawable>();
+    public List<Drawable> drawables = new ArrayList<Drawable>();
 
-    public static void draw(GL2 gl2) {
+    public List<Drawable> getDrawables() {
+        return drawables;
+    }
+
+    public void draw(GL2 gl2) {
         landscape(gl2);
         for (Drawable drawable : drawables) {
             if (drawable instanceof Nonstatic) {

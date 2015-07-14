@@ -1,5 +1,6 @@
 package com.unlocked;
 
+import com.unlocked.objects.Landscape;
 import com.unlocked.objects.World;
 
 import javax.media.opengl.GL;
@@ -9,14 +10,19 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
 /**
- * Created by max_tolstykh on 26/08/14.
+ * @author max_tolstykh
+ * @since 26/08/14
  */
 public class GLEventListenerImpl implements GLEventListener {
 
     private GLU glu;
+    private World world;
+
 
     public GLEventListenerImpl(GLU glu) {
         this.glu = glu;
+        this.world = new World();
+        this.world.setLandscape(new Landscape(100, 100));
     }
 
     @Override
@@ -34,12 +40,12 @@ public class GLEventListenerImpl implements GLEventListener {
 
     @Override
     public void init(GLAutoDrawable glautodrawable) {
-        World.init();
+        world.init();
     }
 
     @Override
     public void dispose(GLAutoDrawable glautodrawable) {
-        World.drawables.clear();
+        world.getDrawables().clear();
     }
 
     @Override
@@ -49,6 +55,6 @@ public class GLEventListenerImpl implements GLEventListener {
         gl2.glLoadIdentity();
         glu.gluLookAt(Camera.x, Camera.y, Camera.z, Camera.eyex, Camera.eyey, Camera.eyez, 0.0f, 0.0f, 1.0f);
 
-        World.draw(gl2);
+        world.draw(gl2);
     }
 }

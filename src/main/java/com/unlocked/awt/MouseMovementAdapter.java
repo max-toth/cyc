@@ -24,7 +24,7 @@ public class MouseMovementAdapter extends MouseAdapter {
 
         Camera.x = (float) Math.sin(scaleX) + 1.0f;
         Camera.y = (float) Math.cos(scaleX) + 1.0f;
-        Camera.z = (float) Math.sin(scaleY);
+        Camera.z = (float) Math.cos(scaleY);
     }
 
     public static float scale(int param, int _x) {
