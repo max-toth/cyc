@@ -19,6 +19,11 @@ public class Wheel implements Nonstatic, Drawable {
     private Vertex center;
     private float radius;
     private float alfa = 0;
+    private boolean maximum = false;
+
+    public boolean isMaximum() {
+        return maximum;
+    }
 
     public Vertex getCenter() {
         return center;
@@ -41,19 +46,41 @@ public class Wheel implements Nonstatic, Drawable {
         this.radius = radius;
     }
 
-    public void turn(int direction) {
+    public void turn(int direction, boolean onOff) {
         switch (direction) {
             case 0: //left
-                if (this.alfa <= 0.8f) {
-                    this.alfa += 0.03f;
-                    System.out.println(alfa * 180 / Math.PI);
+
+                if (onOff) {
+                    this.alfa = 0.8f;
                 }
+                else {
+                    this.alfa = 0;
+                }
+
+//                if (this.alfa <= 0.8f) {
+//                    this.alfa += 0.03f;
+//                    maximum = false;
+//                    System.out.println("angle ["+ (alfa * 180 / Math.PI)+"]");
+//                } else {
+//                    maximum = true;
+//                }
                 break;
             case 1: //right
-                if (this.alfa >= -0.8f) {
-                    this.alfa -= 0.03f;
-                    System.out.println(alfa * 180 / Math.PI);
+                if (onOff) {
+                    this.alfa = -0.8f;
                 }
+                else {
+                    this.alfa = 0;
+                }
+//                if (this.alfa >= -0.8f) {
+//                    this.alfa -= 0.03f;
+//                    maximum = false;
+//                    System.out.println("angle ["+ (alfa * 180 / Math.PI)+"]");
+//
+//                }
+//                else {
+//                    maximum = true;
+//                }
                 break;
         }
 

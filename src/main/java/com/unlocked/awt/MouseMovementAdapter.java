@@ -7,7 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by max_tolstykh on 26/08/14.
+ * @author max_tolstykh
+ * @since 26/08/14.
  */
 public class MouseMovementAdapter extends MouseAdapter {
 
@@ -22,9 +23,11 @@ public class MouseMovementAdapter extends MouseAdapter {
         float scaleX = scale(glcanvas.getWidth(), e.getX());
         float scaleY = scale(glcanvas.getHeight(), e.getY());
 
-        Camera.x = (float) Math.sin(scaleX) + 1.0f;
-        Camera.y = (float) Math.cos(scaleX) + 1.0f;
-        Camera.z = (float) Math.cos(scaleY);
+        Camera.eyex = scaleX + 0.1f;
+        Camera.eyez = scaleY + 0.1f;
+//                (float) Math.sin(scaleX) + 1.0f;
+//        Camera.y = (float) Math.cos(scaleX) + 1.0f;
+//        Camera.z = (float) Math.sin(scaleY);
     }
 
     public static float scale(int param, int _x) {

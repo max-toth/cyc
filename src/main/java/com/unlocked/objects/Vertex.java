@@ -128,4 +128,13 @@ public class Vertex implements Nonstatic, Drawable {
     public void setZ(float z) {
         this.z = z;
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }

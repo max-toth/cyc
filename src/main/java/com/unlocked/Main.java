@@ -1,6 +1,7 @@
 package com.unlocked;
 
 import com.jogamp.opengl.util.FPSAnimator;
+import com.jogamp.opengl.util.gl2.GLUT;
 import com.unlocked.awt.CustomWindowAdapter;
 import com.unlocked.awt.KeyboardListener;
 import com.unlocked.awt.MouseMovementAdapter;
@@ -16,19 +17,33 @@ import java.awt.event.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-
+    static {
         GLProfile.initSingleton();
-        GLProfile glp = GLProfile.getMaxFixedFunc(true);
+    }
 
+    public static GLProfile glp = GLProfile.getMaxFixedFunc(true);
+    public static GLCapabilities glcapabilities = new GLCapabilities(glp);
+    public static final GLCanvas glcanvas = new GLCanvas(glcapabilities);
+    public static GLU glu = new GLU();
+    public static KeyboardListener keyboardListener = new KeyboardListener();
+    public static GLEventListenerImpl glEventListener = new GLEventListenerImpl(glu);
+    public static MouseMovementAdapter mouseMovementAdapter = new MouseMovementAdapter(glcanvas);
+    public static GraphicsEnvironment graphicsEnvironment;
+    public static DisplayMode dmOld, dm;
+
+    public static void main(String[] args) {
         final JFrame frame = new JFrame("cyc");
+        
+        glcanvas.addGLEventListener(glEventListener);
+        glcanvas.addMouseMotionListener(mouseMovementAdapter);
+        glcanvas.addKeyListener(keyboardListener);
 
-        GLCapabilities glcapabilities = new GLCapabilities(glp);
-        final GLCanvas glcanvas = new GLCanvas(glcapabilities);
+        graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] graphicsDevices = graphicsEnvironment.getScreenDevices();
 
-        glcanvas.addGLEventListener(new GLEventListenerImpl(new GLU()));
-        glcanvas.addMouseMotionListener(new MouseMovementAdapter(glcanvas));
-        glcanvas.addKeyListener(new KeyboardListener());
+//        dmOld = graphicsDevices[0].getDisplayMode();
+//        dm = dmOld;
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         final FPSAnimator animator = new FPSAnimator(glcanvas, 60, true);
         frame.addWindowListener(new CustomWindowAdapter(animator));

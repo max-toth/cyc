@@ -1,6 +1,8 @@
 package com.unlocked.objects;
 
 import com.unlocked.objects.car.Car;
+import com.unlocked.objects.car.CarHolder;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import java.io.*;
@@ -28,8 +30,8 @@ public class World {
 
     public void landscape(GL2 gl2) {
         gl2.glBegin(GL.GL_POINTS);
-        for (int i = 0; i < landscape.getWidth(); i++)
-            for (int j = 0; j < landscape.getHeight(); j++) {
+        for (float i = -500; i < 500.0; i++)
+            for (float j = 0; j < 500; j++) {
                 if (i < 0 && j < 0) {
                     gl2.glColor3f(255, 0, 255);
                 } else if (i > 0 && j > 0) {
@@ -39,8 +41,8 @@ public class World {
                 } else if (i < 0 && j > 0) {
                     gl2.glColor3f(255, 255, 0);
                 }
-                Short h = landscape.getHeights().get(i + landscape.getHeight()*j);
-                gl2.glVertex3f((float)i/100, (float)j/100, (float)h/1000);
+//                Short h = landscape.getHeights().get(i + landscape.getHeight()*j);
+                gl2.glVertex3f(i/100, j/100, 0.0f);//(float)h/1000);
             }
         gl2.glEnd();
     }
@@ -68,7 +70,10 @@ public class World {
     }
 
     public void init() {
-        drawables.add(new Car(0.4f, 0.25f, 0.05f, new Vertex(0, 0, 0.05f)));
+
+        CarHolder.setCar(new Car(2.4f, 0.25f, 0.05f, new Vertex(0.0f, 1.0f, 0.05f)));
+
+        drawables.add(CarHolder.getCar());
 //        drawables.add(new Qube(new Vertex(0.0f, 0.0f, 0.0f)));
         selected = 0;
     }
@@ -81,11 +86,12 @@ public class World {
 
     public void draw(GL2 gl2) {
         landscape(gl2);
-        for (Drawable drawable : drawables) {
-            if (drawable instanceof Nonstatic) {
-                ((Nonstatic) drawable).move(((Nonstatic) drawable).direction(), ((Nonstatic) drawable).velocity());
-            }
-            drawable.draw(gl2);
-        }
+//        for (Drawable drawable : drawables) {
+//            if (drawable instanceof Nonstatic) {
+//                ((Nonstatic) drawable).move(((Nonstatic) drawable).direction(), ((Nonstatic) drawable).velocity());
+//            }
+//            drawable.draw(gl2);
+//        }
+        CarHolder.getCar().draw(gl2);
     }
 }
